@@ -86,7 +86,7 @@
             
             asciiframe() {
                 const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2 - 40; // Move up closer to header but not too close
+                const centerY = window.innerHeight / 2 + 20; // Center vertically with slight upward offset
 
                 
                 // Clear with transparent background instead of black
@@ -133,7 +133,7 @@
                         const char = line[charIndex];
                         if (char !== ' ') {
                             const x = charIndex * 12 + centerX - (50 * 12); // 50 * 12 = 600 (center of 100)
-                            const y = lineIndex * 24 + centerY - (12 * 12) + 40; // 12 * 12 = 144 (center of 44) + 40 offset
+                            const y = lineIndex * 24 + centerY - (22 * 12); // 22 * 12 = 264 (center of 44 lines)
                             
                             // Get intensity from the character
                             const intensity = ".,-~:;=!*#$@".indexOf(char) / 11;
