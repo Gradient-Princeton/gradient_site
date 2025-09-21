@@ -1,0 +1,245 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    background: #000000;
+    color: #ffffff;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+#blob-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+}
+
+/* Header */
+.header {
+    padding: 24px 0;
+    border-bottom: 1px solid #333333;
+    width: 100%;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 16px;
+    font-size: 32px;
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    margin-bottom: 0;
+}
+
+.nabla {
+    width: 40px;
+    height: 40px;
+    color: #ffffff;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.nabla svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+.brand {
+    color: #ffffff;
+    font-weight: 300;
+}
+
+/* Main content */
+.main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px 0;
+    max-width: 100%;
+    width: 100%;
+}
+
+
+/* Footer */
+.footer {
+    padding: 20px 0;
+    border-top: 1px solid #333333;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-left p {
+    font-size: 14px;
+    color: #cccccc;
+    font-weight: 400;
+    margin: 0;
+}
+
+.footer-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.contact-button {
+    background-color: transparent;
+    color: #ffffff;
+    border: 1px solid #333333;
+    padding: 8px 16px;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: inherit;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: -0.01em;
+}
+
+.contact-button:hover {
+    background-color: #333333;
+    border-color: #555555;
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 16px;
+    }
+
+    .logo {
+        font-size: 24px;
+        gap: 10px;
+    }
+
+    .nabla {
+        width: 32px;
+        height: 32px;
+    }
+
+    .main {
+        padding: 30px 0;
+        max-width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-right {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .contact-button {
+        padding: 12px 24px;
+        font-size: 14px;
+    }
+
+    .header {
+        padding: 20px 0;
+    }
+
+    .footer {
+        padding: 16px 0;
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    /* Ensure canvas works well on mobile */
+    #blob-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .logo {
+        font-size: 20px;
+        gap: 8px;
+    }
+
+    .nabla {
+        width: 28px;
+        height: 28px;
+    }
+
+    .main {
+        padding: 30px 0;
+        max-width: 100%;
+        align-items: center;
+        text-align: center;
+    }
+
+    .header {
+        padding: 16px 0;
+    }
+
+    .footer {
+        padding: 12px 0;
+    }
+
+    .contact-button {
+        padding: 10px 20px;
+        font-size: 13px;
+    }
+
+    /* Ensure canvas works well on small screens */
+    #blob-canvas {
+        max-width: 100%;
+        height: auto;
+    }
+}
+
+/* Ultra minimal focus states */
+.cta-button:focus {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+
+.contact-button:focus {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+
+/* Smooth animations */
+@media (prefers-reduced-motion: no-preference) {
+    .cta-button {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .contact-button {
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+}

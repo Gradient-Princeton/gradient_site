@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient - Princeton</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <div class="logo">
+                <img src="nabla.svg" alt="nabla" class="nabla">
+                <span class="brand">gradient</span>
+            </div>
+        </header>
+
+        <main class="main">
+        </main>
+        
+        <footer class="footer">
+            <div class="footer-left">
+                <p>© 2025 Gradient, Princeton University</p>
+            </div>
+            <div class="footer-right">
+                <button class="contact-button">express interest in gradient</button>
+                <button class="contact-button">contact</button>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- Interactive Blob Canvas -->
+    <canvas id="blob-canvas"></canvas>
+    
+    <script>
+        // ASCII Donut Animation (Exact Implementation from donut.js)
+        class AsciiDonutAnimation {
+            constructor() {
+                this.canvas = document.getElementById('blob-canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.A = 1;
+                this.B = 1;
+                this.tmr = undefined;
+
+                this.init();
+                this.start();
+            }
+            
+            init() {
+                this.resize();
+                this.ctx.font = '20px monospace';
+                this.ctx.textAlign = 'center';
+                this.ctx.textBaseline = 'middle';
+            }
+            
+            resize() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+            }
+            
+            asciiframe() {
+                const centerX = window.innerWidth / 2;
+                const centerY = window.innerHeight / 2 - 40; // Move up closer to header but not too close
+
+                
+                // Clear with transparent background instead of black
+                this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                this.A += 0.07;
+                this.B += 0.03;
+                
+                const cA = Math.cos(this.A), sA = Math.sin(this.A),
+                      cB = Math.cos(this.B), sB = Math.sin(this.B);
+                
+                const b = [];
+                const z = [];
+
+                for (let k = 0; k < 4400; k++) { // 100 * 44 = 4400 (smaller buffer)
+                    b[k] = k % 100 == 99 ? "\n" : " ";
+                    z[k] = 0;
+                }
+                
+                for (let j = 0; j < 6.28; j += 0.07) { // j <=> theta
+                    const ct = Math.cos(j), st = Math.sin(j);
+                    for (let i = 0; i < 6.28; i += 0.02) {   // i <=> phi
+                        const sp = Math.sin(i), cp = Math.cos(i),
+                              h = ct + 2, // R1 + R2*cos(theta)
+                              D = 1 / (sp * h * sA + st * cA + 5), // this is 1/z
+                              t = sp * h * cA - st * sA; // this is a clever factoring of some of the terms in x' and y'
+
+                        const x = Math.floor(50 + 30 * D * (cp * h * cB - t * sB)),
+                              y = Math.floor(10 + 15 * D * (cp * h * sB + t * cB)),
+                              o = x + 100 * y,
+                              N = Math.floor(8 * ((st * sA - sp * ct * cA) * cB - sp * ct * sA - st * cA - cp * ct * sB));
+
+                        if (y < 44 && y >= 0 && x >= 0 && x < 100 && D > z[o]) {
+                            z[o] = D;
+                            b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
+                        }
+                    }
+                }
+                
+                // Draw the ASCII donut with gradient colors
+                const lines = b.join("").split('\n');
+                lines.forEach((line, lineIndex) => {
+                    for (let charIndex = 0; charIndex < line.length; charIndex++) {
+                        const char = line[charIndex];
+                        if (char !== ' ') {
+                            const x = charIndex * 12 + centerX - (50 * 12); // 50 * 12 = 600 (center of 100)
+                            const y = lineIndex * 24 + centerY - (12 * 12) + 40; // 12 * 12 = 144 (center of 44) + 40 offset
+                            
+                            // Get intensity from the character
+                            const intensity = ".,-~:;=!*#$@".indexOf(char) / 11;
+
+                            // Princeton orange and white colors based on intensity
+                            const colors = [
+                                'rgba(255, 140, 0, 0.2)', 'rgba(255, 140, 0, 0.3)', 'rgba(255, 140, 0, 0.4)',
+                                'rgba(255, 140, 0, 0.5)', 'rgba(255, 140, 0, 0.6)', 'rgba(255, 140, 0, 0.7)',
+                                'rgba(255, 140, 0, 0.8)', 'rgba(255, 140, 0, 0.9)', 'rgba(255, 140, 0, 1.0)',
+                                'rgba(255, 255, 255, 1.0)', 'rgba(255, 255, 255, 1.0)'
+                            ];
+
+
+                            const colorIndex = Math.floor(intensity * (colors.length - 1));
+                            const color = colors[colorIndex];
+
+                            // Add glow effect with the same color
+                            this.ctx.shadowColor = color;
+                            this.ctx.shadowBlur = 6;
+                            this.ctx.fillStyle = color;
+                            this.ctx.fillText(char, x, y);
+
+                            // Reset shadow
+                            this.ctx.shadowBlur = 0;
+                        }
+                    }
+                });
+            }
+            
+            start() {
+                if (this.tmr === undefined) {
+                    this.tmr = setInterval(() => this.asciiframe(), 50);
+                }
+            }
+            
+            stop() {
+                if (this.tmr !== undefined) {
+                    clearInterval(this.tmr);
+                    this.tmr = undefined;
+                }
+            }
+        }
+        
+        // Initialize ASCII donut animation when page loads
+        window.addEventListener('load', () => {
+            new AsciiDonutAnimation();
+        });
+    </script>
+</body>
+</html>
