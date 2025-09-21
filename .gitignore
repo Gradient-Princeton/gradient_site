@@ -1,0 +1,14 @@
+# venv
+venv/
+.venv/
+
+# env
+.env
+
+# logs
+logs/
+
+# data
+data/
+
+# __pycache__
