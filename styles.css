@@ -56,6 +56,15 @@ body {
     font-weight: 300;
     letter-spacing: -0.02em;
     margin-bottom: 0;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+    opacity: 0.8;
+    text-decoration: none;
 }
 
 .nabla {
@@ -88,6 +97,29 @@ body {
     padding: 40px 0;
     max-width: 100%;
     width: 100%;
+}
+
+/* Blog content */
+.blog-content {
+    max-width: 800px;
+    width: 100%;
+    text-align: left;
+}
+
+.blog-content h1 {
+    font-size: 48px;
+    font-weight: 300;
+    margin-bottom: 32px;
+    text-align: center;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+}
+
+.blog-content p {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #cccccc;
+    text-align: center;
 }
 
 
